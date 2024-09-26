@@ -1,0 +1,30 @@
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+eclipse.project.name = appName + '-core'
+
+project.ext.lwjglVersion = "3.3.4"
+project.ext.jomlVersion = "1.10.7"
+project.ext.joml_primitivesVersion = "1.10.0"
+project.ext.lwjglNatives = "natives-linux"
+
+dependencies {
+  api "com.badlogicgames.gdx:gdx:$gdxVersion"
+
+  if(enableGraalNative == 'true') {
+    implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
+  }
+
+  implementation "io.github.spair:imgui-java-binding:$imguiVersion"
+  implementation "io.github.spair:imgui-java-lwjgl3:$imguiVersion"
+  implementation "io.github.spair:imgui-java-natives-linux:$imguiVersion"
+
+  implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
+
+  implementation "org.lwjgl:lwjgl"
+  implementation "org.lwjgl:lwjgl-glfw"
+  implementation "org.lwjgl:lwjgl-opengl"
+  runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
+  runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives"
+  runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
+  implementation "org.joml:joml:${jomlVersion}"
+  implementation "org.joml:joml-primitives:${joml_primitivesVersion}"
+}

@@ -1,5 +1,10 @@
 package io.github.darkgr.world;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import org.joml.Vector2f;
 
 import java.util.ArrayList;
@@ -25,6 +30,29 @@ public class ParticleHolder {
             p1.applyForce(totalForce);
             p1.update();
         }
+    }
+
+    public void checkForClickedParticle(OrthographicCamera camera) {
+        if(!Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) return;
+
+        Vector3 worldPos = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        Vector2f mouseWorldPos = new Vector2f(worldPos.x, worldPos.y);
+
+        for(Particle p : particles) {
+            if(isPositionInsideParticle(mouseWorldPos, p)) {
+                selectParticle(p);
+                break;
+            }
+        }
+    }
+
+    private boolean isPositionInsideParticle(Vector2f position, Particle particle) {
+        Vector2f distanceVector = new Vector2f();
+        position.sub(particle.getPosition(), distanceVector);
+
+        float distance = distanceVector.length();
+
+        return distance <= particle.getRadius();
     }
 
     public void selectParticle(Particle particle) {

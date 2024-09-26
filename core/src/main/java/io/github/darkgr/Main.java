@@ -12,6 +12,7 @@ import imgui.flag.ImGuiDockNodeFlags;
 import imgui.flag.ImGuiWindowFlags;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
+import io.github.darkgr.graphics.Graphics;
 import io.github.darkgr.gui.InspectorGUI;
 import io.github.darkgr.world.Particle;
 import io.github.darkgr.world.ParticleHolder;
@@ -61,6 +62,8 @@ public class Main extends ApplicationAdapter {
         viewport = new ScreenViewport(camera);
         viewport.apply();
 
+        Graphics.init();
+
         particleHolder.addParticle(new Particle(new Vector2f(500, 500), new Vector2f(1.5f, 0), 5));
         particleHolder.addParticle(new Particle(new Vector2f(600, 600), 200));
 
@@ -72,16 +75,16 @@ public class Main extends ApplicationAdapter {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
 
         camera.update();
-        shapeRenderer.setProjectionMatrix(camera.combined);
+        Graphics.update(camera);
 
         particleHolder.updateParticles();
+        particleHolder.checkForClickedParticle(camera);
 
-        for(Particle particle : particleHolder.getParticles()) {
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(particle.getColor());
-            shapeRenderer.circle(particle.getPosition().x, particle.getPosition().y, 10);
-            shapeRenderer.end();
-        }
+        if(particleHolder.getSelected() != null)
+            Graphics.renderParticleGlow(particleHolder.getSelected());
+
+        for(Particle particle : particleHolder.getParticles())
+            Graphics.renderParticle(particle);
 
         imGuiGl3.newFrame();
         imGuiGlfw.newFrame();

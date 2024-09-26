@@ -20,6 +20,10 @@ public class InspectorGUI extends MolecularGUI {
         ImFloat xVelocityInput = new ImFloat(selectedParticle.getVelocity().x);
         ImFloat yVelocityInput = new ImFloat(selectedParticle.getVelocity().y);
 
+        ImFloat massInput = new ImFloat(selectedParticle.getMass());
+
+        int[] radiusInput = new int[] { selectedParticle.getRadius() };
+
         float[] colorInput = new float[] {
             selectedParticle.getColor().r, selectedParticle.getColor().g,
             selectedParticle.getColor().b, selectedParticle.getColor().a
@@ -48,6 +52,14 @@ public class InspectorGUI extends MolecularGUI {
 
         ImGui.setCursorPosX(20);
         ImGui.setCursorPosY(ImGui.getCursorPosY() + 10);
+        ImGui.text("Mass");
+        ImGui.sameLine();
+        ImGui.setCursorPosX(85);
+        ImGui.setNextItemWidth(280);
+        ImGui.inputFloat("##mass", massInput);
+
+        ImGui.setCursorPosX(20);
+        ImGui.setCursorPosY(ImGui.getCursorPosY() + 10);
         ImGui.text("Color");
         ImGui.sameLine();
         ImGui.setCursorPosX(85);
@@ -55,8 +67,18 @@ public class InspectorGUI extends MolecularGUI {
         if(ImGui.colorEdit4("##color", colorInput))
             selectedParticle.setColor(new Color(colorInput[0], colorInput[1], colorInput[2], colorInput[3]));
 
+        ImGui.setCursorPosX(20);
+        ImGui.setCursorPosY(ImGui.getCursorPosY() + 10);
+        ImGui.text("Radius");
+        ImGui.sameLine();
+        ImGui.setCursorPosX(85);
+        ImGui.setNextItemWidth(280);
+        ImGui.sliderInt("##radius", radiusInput, 1, 100);
+
         selectedParticle.setPosition(new Vector2f(xInput.get(), yInput.get()));
         selectedParticle.setVelocity(new Vector2f(xVelocityInput.get(), yVelocityInput.get()));
+        selectedParticle.setMass(massInput.get());
+        selectedParticle.setRadius(radiusInput[0]);
 
         ImGui.end();
     }

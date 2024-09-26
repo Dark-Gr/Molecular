@@ -8,6 +8,7 @@ public class Particle {
     private Vector2f velocity;
 
     private float mass;
+    private int radius;
 
     private Color color;
 
@@ -28,6 +29,7 @@ public class Particle {
         this.velocity = velocity;
         this.mass = mass;
         this.color = color;
+        this.radius = 10;
     }
 
     public void applyForce(Vector2f force) {
@@ -57,6 +59,10 @@ public class Particle {
         return color;
     }
 
+    public int getRadius() {
+        return radius;
+    }
+
     public void setPosition(Vector2f position) {
         this.position = position;
     }
@@ -71,5 +77,9 @@ public class Particle {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public void setRadius(int radius) {
+        this.radius = radius;
     }
 }

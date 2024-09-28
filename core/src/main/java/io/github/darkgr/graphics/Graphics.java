@@ -43,7 +43,7 @@ public class Graphics {
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(particle.getColor());
-        shapeRenderer.circle(particle.getPosition().x, particle.getPosition().y, particle.getRadius());
+        shapeRenderer.circle((float) particle.getPosition().x, (float) particle.getPosition().y, particle.getRadius());
         shapeRenderer.end();
     }
 
@@ -51,8 +51,8 @@ public class Graphics {
         throwIfNotInitialized();
 
         float haloSize = particle.getRadius() * 4.5f;
-        float x = particle.getPosition().x - haloSize / 2;
-        float y = particle.getPosition().y - haloSize / 2;
+        float x = (float) particle.getPosition().x - haloSize / 2;
+        float y = (float) particle.getPosition().y - haloSize / 2;
 
         spriteBatch.begin();
         Gdx.gl.glEnable(GL20.GL_BLEND);

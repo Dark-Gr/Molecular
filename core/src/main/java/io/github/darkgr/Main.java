@@ -2,6 +2,7 @@ package io.github.darkgr;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -16,7 +17,7 @@ import io.github.darkgr.graphics.Graphics;
 import io.github.darkgr.gui.InspectorGUI;
 import io.github.darkgr.world.Particle;
 import io.github.darkgr.world.ParticleHolder;
-import org.joml.Vector2f;
+import org.joml.Vector2d;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 
@@ -64,8 +65,9 @@ public class Main extends ApplicationAdapter {
 
         Graphics.init();
 
-        particleHolder.addParticle(new Particle(new Vector2f(500, 500), new Vector2f(1.5f, 0), 5));
-        particleHolder.addParticle(new Particle(new Vector2f(600, 600), 200));
+        particleHolder.addParticle(new Particle(new Vector2d(500, 500), new Vector2d(0, 2), 5, new Color(1f, 0, 0, 1f)));
+        particleHolder.addParticle(new Particle(new Vector2d(800, 500), 5000, new Color(0, 1f, 0, 1f)));
+        particleHolder.addParticle(new Particle(new Vector2d(1100, 500), new Vector2d(0, -2), 5, new Color(0, 0, 1f, 1f)));
 
         particleHolder.selectParticle(particleHolder.getParticles().get(0));
     }

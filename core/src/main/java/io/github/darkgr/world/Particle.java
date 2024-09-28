@@ -1,30 +1,30 @@
 package io.github.darkgr.world;
 
 import com.badlogic.gdx.graphics.Color;
-import org.joml.Vector2f;
+import org.joml.Vector2d;
 
 public class Particle {
-    private Vector2f position;
-    private Vector2f velocity;
+    private Vector2d position;
+    private Vector2d velocity;
 
-    private float mass;
+    private double mass;
     private int radius;
 
     private Color color;
 
-    public Particle(Vector2f position, float mass) {
+    public Particle(Vector2d position, double mass) {
         this(position, mass, Color.WHITE);
     }
 
-    public Particle(Vector2f position, float mass, Color color) {
-        this(position, new Vector2f(), mass, color);
+    public Particle(Vector2d position, double mass, Color color) {
+        this(position, new Vector2d(), mass, color);
     }
 
-    public Particle(Vector2f position, Vector2f velocity, float mass) {
+    public Particle(Vector2d position, Vector2d velocity, double mass) {
         this(position, velocity, mass, Color.WHITE);
     }
 
-    public Particle(Vector2f position, Vector2f velocity, float mass, Color color) {
+    public Particle(Vector2d position, Vector2d velocity, double mass, Color color) {
         this.position = position;
         this.velocity = velocity;
         this.mass = mass;
@@ -32,8 +32,8 @@ public class Particle {
         this.radius = 10;
     }
 
-    public void applyForce(Vector2f force) {
-        Vector2f acceleration = new Vector2f();
+    public void applyForce(Vector2d force) {
+        Vector2d acceleration = new Vector2d();
         force.div(mass, acceleration);
 
         velocity.add(acceleration);
@@ -43,15 +43,15 @@ public class Particle {
         position.add(velocity);
     }
 
-    public Vector2f getPosition() {
+    public Vector2d getPosition() {
         return position;
     }
 
-    public Vector2f getVelocity() {
+    public Vector2d getVelocity() {
         return velocity;
     }
 
-    public float getMass() {
+    public double getMass() {
         return mass;
     }
 
@@ -63,15 +63,15 @@ public class Particle {
         return radius;
     }
 
-    public void setPosition(Vector2f position) {
+    public void setPosition(Vector2d position) {
         this.position = position;
     }
 
-    public void setVelocity(Vector2f velocity) {
+    public void setVelocity(Vector2d velocity) {
         this.velocity = velocity;
     }
 
-    public void setMass(float mass) {
+    public void setMass(double mass) {
         this.mass = mass;
     }
 

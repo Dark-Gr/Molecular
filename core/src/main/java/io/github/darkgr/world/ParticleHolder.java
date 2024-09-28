@@ -3,9 +3,8 @@ package io.github.darkgr.world;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import org.joml.Vector2f;
+import org.joml.Vector2d;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ public class ParticleHolder {
 
     public void updateParticles() {
         for(Particle p1 : particles) {
-            Vector2f totalForce = new Vector2f();
+            Vector2d totalForce = new Vector2d();
 
             for(Particle p2 : particles) {
                 if(p2 != p1)
@@ -36,7 +35,7 @@ public class ParticleHolder {
         if(!Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) return;
 
         Vector3 worldPos = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-        Vector2f mouseWorldPos = new Vector2f(worldPos.x, worldPos.y);
+        Vector2d mouseWorldPos = new Vector2d(worldPos.x, worldPos.y);
 
         for(Particle p : particles) {
             if(isPositionInsideParticle(mouseWorldPos, p)) {
@@ -46,11 +45,11 @@ public class ParticleHolder {
         }
     }
 
-    private boolean isPositionInsideParticle(Vector2f position, Particle particle) {
-        Vector2f distanceVector = new Vector2f();
+    private boolean isPositionInsideParticle(Vector2d position, Particle particle) {
+        Vector2d distanceVector = new Vector2d();
         position.sub(particle.getPosition(), distanceVector);
 
-        float distance = distanceVector.length();
+        double distance = distanceVector.length();
 
         return distance <= particle.getRadius();
     }

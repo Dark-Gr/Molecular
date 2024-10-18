@@ -17,8 +17,9 @@ public class ParticleHolder {
         this.particles = new ArrayList<>();
     }
 
-    public void updateParticles() {
+    public void updateParticles(double deltaTime) {
         for(Particle p1 : particles) {
+            if(!p1.isMovable()) continue;
             Vector2d totalForce = new Vector2d();
 
             for(Particle p2 : particles) {
@@ -26,9 +27,18 @@ public class ParticleHolder {
                     totalForce.sub(PhysicsMath.calculateGravity(p1, p2));
             }
 
-            p1.applyForce(totalForce);
-            p1.update();
+            p1.applyForce(totalForce.mul(deltaTime));
         }
+
+        for(int i = 0; i < particles.size(); i++) {
+            if(!particles.get(i).isMovable()) continue;
+
+            for (int j = i + 1; j < particles.size(); j++)
+                PhysicsMath.attemptCollision(particles.get(i), particles.get(j));
+        }
+
+        for(Particle p : particles)
+            p.update();
     }
 
     public void checkForClickedParticle(OrthographicCamera camera) {

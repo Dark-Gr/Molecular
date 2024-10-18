@@ -34,6 +34,8 @@ public class Main extends ApplicationAdapter {
 
     private final InspectorGUI inspectorGUI = new InspectorGUI();
 
+    private long lastFrameTime;
+
     @Override
     public void create() {
         shapeRenderer = new ShapeRenderer();
@@ -65,21 +67,30 @@ public class Main extends ApplicationAdapter {
 
         Graphics.init();
 
-        particleHolder.addParticle(new Particle(new Vector2d(500, 500), new Vector2d(0, 2), 5, new Color(1f, 0, 0, 1f)));
-        particleHolder.addParticle(new Particle(new Vector2d(800, 500), 5000, new Color(0, 1f, 0, 1f)));
-        particleHolder.addParticle(new Particle(new Vector2d(1100, 500), new Vector2d(0, -2), 5, new Color(0, 0, 1f, 1f)));
+        particleHolder.addParticle(new Particle(new Vector2d(500, 800), new Vector2d(0.5, 0), 10, new Color(1f, 0, 0, 1f)));
+        particleHolder.addParticle(new Particle(new Vector2d(700, 800), new Vector2d(-0.5, 0), 50, new Color(0, 1f, 0, 1f)));
 
+        particleHolder.addParticle(new Particle(new Vector2d(500, 500), new Vector2d(0, 0.5), 10, new Color(1f, 1f, 0, 1f)));
+        particleHolder.addParticle(new Particle(new Vector2d(800, 500), 20, new Color(0, 1f, 1f, 1f)));
+        particleHolder.addParticle(new Particle(new Vector2d(1100, 500), new Vector2d(0, -0.5), 10, new Color(0, 0, 1f, 1f)));
+
+        particleHolder.getParticles().get(1).setRadius(20);
         particleHolder.selectParticle(particleHolder.getParticles().get(0));
+
+        lastFrameTime = System.currentTimeMillis();
     }
 
     @Override
     public void render() {
+        double deltaTime = System.currentTimeMillis() - lastFrameTime;
+        lastFrameTime = System.currentTimeMillis();
+
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
 
         camera.update();
         Graphics.update(camera);
 
-        particleHolder.updateParticles();
+        particleHolder.updateParticles(deltaTime);
         particleHolder.checkForClickedParticle(camera);
 
         if(particleHolder.getSelected() != null)

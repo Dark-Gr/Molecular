@@ -2,10 +2,10 @@ package io.github.darkgr.gui;
 
 import com.badlogic.gdx.graphics.Color;
 import imgui.ImGui;
+import imgui.type.ImBoolean;
 import imgui.type.ImDouble;
 import io.github.darkgr.Main;
 import io.github.darkgr.world.Particle;
-import org.joml.Vector2d;
 
 public class InspectorGUI extends MolecularGUI {
     @Override
@@ -16,6 +16,8 @@ public class InspectorGUI extends MolecularGUI {
 
         ImDouble xInput = new ImDouble(selectedParticle.getPosition().x);
         ImDouble yInput = new ImDouble(selectedParticle.getPosition().y);
+
+        ImBoolean movableInput = new ImBoolean(selectedParticle.isMovable());
 
         ImDouble xVelocityInput = new ImDouble(selectedParticle.getVelocity().x);
         ImDouble yVelocityInput = new ImDouble(selectedParticle.getVelocity().y);
@@ -40,6 +42,14 @@ public class InspectorGUI extends MolecularGUI {
         ImGui.setNextItemWidth(135);
         if(ImGui.inputDouble("##Y", yInput))
             selectedParticle.getPosition().y = yInput.get();
+
+        ImGui.setCursorPosX(20);
+        ImGui.setCursorPosY(ImGui.getCursorPosY() + 10);
+        ImGui.text("Movable");
+        ImGui.sameLine();
+        ImGui.setCursorPosX(85);
+        if(ImGui.checkbox("##movable", movableInput))
+            selectedParticle.setMovable(movableInput.get());
 
         ImGui.setCursorPosX(20);
         ImGui.setCursorPosY(ImGui.getCursorPosY() + 10);

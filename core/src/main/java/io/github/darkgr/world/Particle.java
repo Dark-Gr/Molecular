@@ -1,6 +1,7 @@
 package io.github.darkgr.world;
 
 import com.badlogic.gdx.graphics.Color;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2d;
 
 public class Particle {
@@ -9,6 +10,8 @@ public class Particle {
 
     private double mass;
     private int radius;
+
+    private boolean movable;
 
     private Color color;
 
@@ -30,9 +33,12 @@ public class Particle {
         this.mass = mass;
         this.color = color;
         this.radius = 10;
+        this.movable = true;
     }
 
-    public void applyForce(Vector2d force) {
+    public void applyForce(@NotNull Vector2d force) {
+        if(!movable) return;
+
         Vector2d acceleration = new Vector2d();
         force.div(mass, acceleration);
 
@@ -40,7 +46,7 @@ public class Particle {
     }
 
     public void update() {
-        position.add(velocity);
+        if(movable) position.add(velocity);
     }
 
     public Vector2d getPosition() {
@@ -63,12 +69,16 @@ public class Particle {
         return radius;
     }
 
-    public void setPosition(Vector2d position) {
-        this.position = position;
+    public boolean isMovable() {
+        return movable;
     }
 
     public void setVelocity(Vector2d velocity) {
-        this.velocity = velocity;
+        if(movable) this.velocity = velocity;
+    }
+
+    public void setPosition(Vector2d position) {
+        this.position = position;
     }
 
     public void setMass(double mass) {
@@ -81,5 +91,9 @@ public class Particle {
 
     public void setRadius(int radius) {
         this.radius = radius;
+    }
+
+    public void setMovable(boolean movable) {
+        this.movable = movable;
     }
 }

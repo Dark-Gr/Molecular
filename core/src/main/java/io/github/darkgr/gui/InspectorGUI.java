@@ -14,6 +14,11 @@ public class InspectorGUI extends MolecularGUI {
 
         ImGui.begin("Inspector");
 
+        if(selectedParticle == null) {
+            ImGui.end();
+            return;
+        }
+
         ImDouble xInput = new ImDouble(selectedParticle.getPosition().x);
         ImDouble yInput = new ImDouble(selectedParticle.getPosition().y);
 

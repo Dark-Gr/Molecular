@@ -1,10 +1,12 @@
 package io.github.darkgr.graphics;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import io.github.darkgr.world.Box;
 import io.github.darkgr.world.Particle;
 import org.lwjgl.opengl.GL20;
 
@@ -36,6 +38,15 @@ public class Graphics {
         throwIfNotInitialized();
         shapeRenderer.setProjectionMatrix(camera.combined);
         spriteBatch.setProjectionMatrix(camera.combined);
+    }
+
+    public static void renderBox(Box box) {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.rect((float)box.getLeft(), (float)box.getBottom(),
+            (float)(box.getRight() - box.getLeft()),
+            (float)(box.getTop() - box.getBottom()));
+        shapeRenderer.end();
     }
 
     public static void renderParticle(Particle particle) {

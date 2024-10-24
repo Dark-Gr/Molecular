@@ -5,8 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2d;
 
 public class Particle {
-    private Vector2d position;
-    private Vector2d velocity;
+    private final Vector2d position;
+    private final Vector2d velocity;
 
     private double mass;
     private int radius;
@@ -71,14 +71,6 @@ public class Particle {
 
     public boolean isMovable() {
         return movable;
-    }
-
-    public void setVelocity(Vector2d velocity) {
-        if(movable) this.velocity = velocity;
-    }
-
-    public void setPosition(Vector2d position) {
-        this.position = position;
     }
 
     public void setMass(double mass) {

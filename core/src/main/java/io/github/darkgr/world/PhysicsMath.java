@@ -5,6 +5,7 @@ import org.joml.Vector2d;
 
 public class PhysicsMath {
     public static final double G_FORCE = 1; //Math.pow(6.67430f * 10, -11);
+    public static final double ELASTICITY = 0.9;
 
     public static Vector2d calculateGravity(@NotNull Particle p1, @NotNull Particle p2) {
         if(!p1.isMovable()) return new Vector2d();
@@ -49,5 +50,21 @@ public class PhysicsMath {
         }
         else if(p1.isMovable()) p1.getPosition().add(correction);
         else if(p2.isMovable()) p2.getPosition().sub(correction);
+    }
+
+    public static void attemptParticleBoxCollision(@NotNull Particle particle, @NotNull Box box) {
+        double radius = particle.getRadius();
+        Vector2d position = particle.getPosition();
+        Vector2d velocity = particle.getVelocity();
+
+        if(position.x - radius < box.getLeft() || position.x + radius > box.getRight()) {
+            velocity.x = -velocity.x * ELASTICITY;
+            position.x = position.x - radius < box.getLeft() ? box.getLeft() + radius : box.getRight() - radius;
+        }
+
+        if(position.y - radius < box.getBottom() || position.y + radius > box.getTop()) {
+            velocity.y = -velocity.y * ELASTICITY;
+            position.y = position.y - radius < box.getBottom() ? box.getBottom() + radius : box.getTop() - radius;
+        }
     }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
+import imgui.ImGui;
 import org.joml.Vector2d;
 
 import java.util.ArrayList;
@@ -11,10 +12,13 @@ import java.util.List;
 
 public class ParticleHolder {
     private final List<Particle> particles;
+    private final List<Box> boxes;
+
     private Particle selected;
 
     public ParticleHolder() {
         this.particles = new ArrayList<>();
+        this.boxes = new ArrayList<>();
     }
 
     public void updateParticles(double deltaTime) {
@@ -37,11 +41,17 @@ public class ParticleHolder {
                 PhysicsMath.attemptCollision(particles.get(i), particles.get(j));
         }
 
+        for(Particle particle : particles) {
+            for(Box box : boxes)
+                PhysicsMath.attemptParticleBoxCollision(particle, box);
+        }
+
         for(Particle p : particles)
             p.update();
     }
 
     public void checkForClickedParticle(OrthographicCamera camera) {
+        if(ImGui.isAnyItemHovered()) return;
         if(!Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) return;
 
         Vector3 worldPos = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -73,8 +83,17 @@ public class ParticleHolder {
             this.particles.add(particle);
     }
 
+    public void addBox(Box box) {
+        if(!this.boxes.contains(box))
+            this.boxes.add(box);
+    }
+
     public List<Particle> getParticles() {
         return new ArrayList<>(particles);
+    }
+
+    public List<Box> getBoxes() {
+        return new ArrayList<>(boxes);
     }
 
     public Particle getSelected() {

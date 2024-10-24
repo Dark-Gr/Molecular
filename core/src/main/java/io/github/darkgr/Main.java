@@ -15,6 +15,8 @@ import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
 import io.github.darkgr.graphics.Graphics;
 import io.github.darkgr.gui.InspectorGUI;
+import io.github.darkgr.gui.MainMenuBar;
+import io.github.darkgr.world.Box;
 import io.github.darkgr.world.Particle;
 import io.github.darkgr.world.ParticleHolder;
 import org.joml.Vector2d;
@@ -33,6 +35,7 @@ public class Main extends ApplicationAdapter {
     public static final ParticleHolder particleHolder = new ParticleHolder();
 
     private final InspectorGUI inspectorGUI = new InspectorGUI();
+    private final MainMenuBar mainMenuBar = new MainMenuBar();
 
     private long lastFrameTime;
 
@@ -67,6 +70,8 @@ public class Main extends ApplicationAdapter {
 
         Graphics.init();
 
+        particleHolder.addBox(new Box(300, 1200, 900, 200));
+
         particleHolder.addParticle(new Particle(new Vector2d(500, 800), new Vector2d(0.5, 0), 10, new Color(1f, 0, 0, 1f)));
         particleHolder.addParticle(new Particle(new Vector2d(700, 800), new Vector2d(-0.5, 0), 50, new Color(0, 1f, 0, 1f)));
 
@@ -75,7 +80,7 @@ public class Main extends ApplicationAdapter {
         particleHolder.addParticle(new Particle(new Vector2d(1100, 500), new Vector2d(0, -0.5), 10, new Color(0, 0, 1f, 1f)));
 
         particleHolder.getParticles().get(1).setRadius(20);
-        particleHolder.selectParticle(particleHolder.getParticles().get(0));
+//        particleHolder.selectParticle(particleHolder.getParticles().get(0));
 
         lastFrameTime = System.currentTimeMillis();
     }
@@ -93,6 +98,9 @@ public class Main extends ApplicationAdapter {
         particleHolder.updateParticles(deltaTime);
         particleHolder.checkForClickedParticle(camera);
 
+        for(Box box : particleHolder.getBoxes())
+            Graphics.renderBox(box);
+
         if(particleHolder.getSelected() != null)
             Graphics.renderParticleGlow(particleHolder.getSelected());
 
@@ -103,6 +111,8 @@ public class Main extends ApplicationAdapter {
         imGuiGlfw.newFrame();
         ImGui.newFrame();
 
+        mainMenuBar.process();
+
         ImGui.begin("Window Docking Space",
             ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse |
                 ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize |
@@ -110,8 +120,8 @@ public class Main extends ApplicationAdapter {
                 ImGuiWindowFlags.NoBackground
         );
 
-        ImGui.setWindowSize(new ImVec2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        ImGui.setWindowPos(new ImVec2(0, 0));
+        ImGui.setWindowSize(new ImVec2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - MainMenuBar.BAR_HEIGHT));
+        ImGui.setWindowPos(new ImVec2(0, MainMenuBar.BAR_HEIGHT));
 
         int dockSpace = ImGui.getID("Docker");
         ImGui.dockSpace(dockSpace, 0, 0, ImGuiDockNodeFlags.PassthruCentralNode);

@@ -32,7 +32,7 @@ public class Particle {
         this.velocity = velocity;
         this.mass = mass;
         this.color = color;
-        this.radius = 10;
+        this.radius = 15;
         this.movable = true;
     }
 

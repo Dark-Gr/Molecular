@@ -2,9 +2,9 @@ package io.github.darkgr;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import imgui.*;
@@ -25,9 +25,10 @@ import org.lwjgl.opengl.GL;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
-    private ShapeRenderer shapeRenderer;
     private OrthographicCamera camera;
     private ScreenViewport viewport;
+
+    private boolean paused;
 
     private final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
@@ -41,8 +42,6 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void create() {
-        shapeRenderer = new ShapeRenderer();
-
         GL.createCapabilities();
 
         ImGui.createContext();
@@ -72,14 +71,27 @@ public class Main extends ApplicationAdapter {
 
         particleHolder.addBox(new Box(300, 1200, 900, 200));
 
-        particleHolder.addParticle(new Particle(new Vector2d(500, 800), new Vector2d(0.5, 0), 10, new Color(1f, 0, 0, 1f)));
-        particleHolder.addParticle(new Particle(new Vector2d(700, 800), new Vector2d(-0.5, 0), 50, new Color(0, 1f, 0, 1f)));
+        for(int i = 0; i < 12; i++) {
+            Color color = new Color(
+                (float) Math.random(),
+                (float) Math.random(),
+                (float) Math.random(),
+                1
+            );
 
-        particleHolder.addParticle(new Particle(new Vector2d(500, 500), new Vector2d(0, 0.5), 10, new Color(1f, 1f, 0, 1f)));
-        particleHolder.addParticle(new Particle(new Vector2d(800, 500), 20, new Color(0, 1f, 1f, 1f)));
-        particleHolder.addParticle(new Particle(new Vector2d(1100, 500), new Vector2d(0, -0.5), 10, new Color(0, 0, 1f, 1f)));
+            double mass = Math.floor(Math.random() * 50);
 
-        particleHolder.getParticles().get(1).setRadius(20);
+            particleHolder.addParticle(new Particle(new Vector2d(500 + i * 50, 600 - (Math.floor(Math.random() * 200))), mass, color));
+        }
+
+//        particleHolder.addParticle(new Particle(new Vector2d(500, 800), new Vector2d(0.5, 0), 10, new Color(1f, 0, 0, 1f)));
+//        particleHolder.addParticle(new Particle(new Vector2d(700, 800), new Vector2d(-0.5, 0), 50, new Color(0, 1f, 0, 1f)));
+//
+//        particleHolder.addParticle(new Particle(new Vector2d(500, 500), new Vector2d(0, 0.5), 10, new Color(1f, 1f, 0, 1f)));
+//        particleHolder.addParticle(new Particle(new Vector2d(800, 500), 20, new Color(0, 1f, 1f, 1f)));
+//        particleHolder.addParticle(new Particle(new Vector2d(1100, 500), new Vector2d(0, -0.5), 10, new Color(0, 0, 1f, 1f)));
+//
+//        particleHolder.getParticles().get(1).setRadius(20);
 //        particleHolder.selectParticle(particleHolder.getParticles().get(0));
 
         lastFrameTime = System.currentTimeMillis();
@@ -95,7 +107,12 @@ public class Main extends ApplicationAdapter {
         camera.update();
         Graphics.update(camera);
 
-        particleHolder.updateParticles(deltaTime);
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
+            paused = !paused;
+
+        if(!paused)
+            particleHolder.updateParticles(deltaTime);
+
         particleHolder.checkForClickedParticle(camera);
 
         for(Box box : particleHolder.getBoxes())
@@ -141,7 +158,7 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void dispose() {
-        shapeRenderer.dispose();
+        Graphics.dispose();
         imGuiGlfw.shutdown();
         imGuiGl3.shutdown();
         ImGui.destroyContext();

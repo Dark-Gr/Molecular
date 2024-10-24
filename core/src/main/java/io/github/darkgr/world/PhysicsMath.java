@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2d;
 
 public class PhysicsMath {
-    public static final double G_FORCE = 1; //Math.pow(6.67430f * 10, -11);
+    public static final double G_FORCE = 0.2; //Math.pow(6.67430f * 10, -11);
     public static final double ELASTICITY = 0.9;
 
     public static Vector2d calculateGravity(@NotNull Particle p1, @NotNull Particle p2) {

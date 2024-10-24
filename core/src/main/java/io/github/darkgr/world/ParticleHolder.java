@@ -51,18 +51,29 @@ public class ParticleHolder {
     }
 
     public void checkForClickedParticle(OrthographicCamera camera) {
-        if(ImGui.isAnyItemHovered()) return;
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            this.selectParticle(null);
+            return;
+        }
+
+        if(ImGui.isAnyItemHovered() || ImGui.isAnyItemActive() || ImGui.isAnyItemFocused()) return;
         if(!Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) return;
 
         Vector3 worldPos = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         Vector2d mouseWorldPos = new Vector2d(worldPos.x, worldPos.y);
 
+        boolean found = false;
+
         for(Particle p : particles) {
             if(isPositionInsideParticle(mouseWorldPos, p)) {
                 selectParticle(p);
+                found = true;
                 break;
             }
         }
+
+        if(!found)
+            selectParticle(null);
     }
 
     private boolean isPositionInsideParticle(Vector2d position, Particle particle) {

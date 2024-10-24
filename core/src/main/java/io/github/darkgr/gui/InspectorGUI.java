@@ -50,14 +50,6 @@ public class InspectorGUI extends MolecularGUI {
 
         ImGui.setCursorPosX(20);
         ImGui.setCursorPosY(ImGui.getCursorPosY() + 10);
-        ImGui.text("Movable");
-        ImGui.sameLine();
-        ImGui.setCursorPosX(85);
-        if(ImGui.checkbox("##movable", movableInput))
-            selectedParticle.setMovable(movableInput.get());
-
-        ImGui.setCursorPosX(20);
-        ImGui.setCursorPosY(ImGui.getCursorPosY() + 10);
         ImGui.text("Velocity");
         ImGui.sameLine();
         ImGui.setCursorPosX(85);
@@ -68,6 +60,14 @@ public class InspectorGUI extends MolecularGUI {
         ImGui.setNextItemWidth(135);
         if(ImGui.inputDouble("##VelY", yVelocityInput))
             selectedParticle.getVelocity().y = yVelocityInput.get();
+
+        ImGui.setCursorPosX(20);
+        ImGui.setCursorPosY(ImGui.getCursorPosY() + 10);
+        ImGui.text("Movable");
+        ImGui.sameLine();
+        ImGui.setCursorPosX(85);
+        if(ImGui.checkbox("##movable", movableInput))
+            selectedParticle.setMovable(movableInput.get());
 
         ImGui.setCursorPosX(20);
         ImGui.setCursorPosY(ImGui.getCursorPosY() + 10);

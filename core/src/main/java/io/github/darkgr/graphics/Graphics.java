@@ -71,4 +71,11 @@ public class Graphics {
         spriteBatch.draw(haloTexture, x, y, haloSize, haloSize);
         spriteBatch.end();
     }
+
+    public static void dispose() {
+        shapeRenderer.dispose();
+        haloTexture.dispose();
+        spriteBatch.dispose();
+        initialized = false;
+    }
 }

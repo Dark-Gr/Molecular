@@ -10,6 +10,8 @@ public class MainMenuBar extends MolecularGUI {
         ImGui.beginMainMenuBar();
 
         ImGui.button("Start");
+        ImGui.button("Simulation");
+        ImGui.button("About");
 
         ImGui.endMainMenuBar();
     }

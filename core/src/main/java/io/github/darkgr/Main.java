@@ -96,6 +96,8 @@ public class Main extends ApplicationAdapter {
         particleHolder.addParticle(new Particle(new Vector2d(500, 500), new Vector2d(0, 1), 10, new Color(1f, 1f, 0, 1f)));
         particleHolder.addParticle(new Particle(new Vector2d(800, 500), 200, new Color(0, 1f, 1f, 1f)));
         particleHolder.addParticle(new Particle(new Vector2d(1100, 500), new Vector2d(0, -1), 10, new Color(0, 0, 1f, 1f)));
+
+        particleHolder.getParticles().get(1).setRadius(25);
 //
 //        particleHolder.getParticles().get(1).setRadius(20);
 //        particleHolder.selectParticle(particleHolder.getParticles().get(0));

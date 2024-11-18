@@ -2,6 +2,7 @@ package io.github.darkgr.gui;
 
 import com.badlogic.gdx.graphics.Color;
 import imgui.ImGui;
+import imgui.ImVec2;
 import imgui.type.ImBoolean;
 import imgui.type.ImDouble;
 import io.github.darkgr.Main;
@@ -94,6 +95,14 @@ public class InspectorGUI extends MolecularGUI {
         ImGui.setNextItemWidth(280);
         if(ImGui.sliderInt("##radius", radiusInput, 1, 100))
             selectedParticle.setRadius(radiusInput[0]);
+
+        ImGui.setCursorPosX(20);
+        ImGui.setCursorPosY(ImGui.getCursorPosY() + 10);
+
+        if(ImGui.button("Delete", new ImVec2(345, 25))) {
+            Main.particleHolder.removeParticle(Main.particleHolder.getSelected());
+            Main.particleHolder.selectParticle(null);
+        }
 
         ImGui.end();
     }

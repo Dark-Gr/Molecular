@@ -110,4 +110,8 @@ public class ParticleHolder {
     public Particle getSelected() {
         return selected;
     }
+
+    public void removeParticle(Particle particle) {
+        this.particles.remove(particle);
+    }
 }

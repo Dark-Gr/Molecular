@@ -1,18 +1,61 @@
 package io.github.darkgr.gui;
 
 import imgui.ImGui;
+import imgui.ImVec2;
+import org.joml.Vector2f;
 
 public class MainMenuBar extends MolecularGUI {
     public static final int BAR_HEIGHT = 25;
+    private static final ImVec2 MENU_BUTTON_SIZE = new ImVec2(100, BAR_HEIGHT);
+
+    private Vector2f popupPos = new Vector2f();
 
     @Override
     public void process() {
         ImGui.beginMainMenuBar();
 
-        ImGui.button("Start");
-        ImGui.button("Simulation");
-        ImGui.button("About");
+        if(ImGui.button("Start", MENU_BUTTON_SIZE))
+            popupPos = openPopup("Start");
+
+        if(ImGui.button("Simulation", MENU_BUTTON_SIZE))
+            popupPos = openPopup("Simulation");
+
+        if(ImGui.button("About", MENU_BUTTON_SIZE))
+            popupPos = openPopup("About");
+
+
+
+        ImGui.setNextWindowPos(popupPos.x, popupPos.y);
+        if(ImGui.beginPopup("Start")) {
+            ImGui.button("Exit", MENU_BUTTON_SIZE);
+
+            ImGui.endPopup();
+        }
+
+        ImGui.setNextWindowPos(popupPos.x, popupPos.y);
+        if(ImGui.beginPopup("Simulation")) {
+            ImGui.button("Add Particle", MENU_BUTTON_SIZE);
+            ImGui.button("Pause", MENU_BUTTON_SIZE);
+
+            ImGui.endPopup();
+        }
+
+        ImGui.setNextWindowPos(popupPos.x, popupPos.y);
+        if(ImGui.beginPopup("About")) {
+            ImGui.button("Github", MENU_BUTTON_SIZE);
+
+            ImGui.endPopup();
+        }
 
         ImGui.endMainMenuBar();
+    }
+
+    private Vector2f openPopup(String id) {
+        float x = ImGui.getCursorPosX();
+        float y = ImGui.getCursorPosY();
+
+        ImGui.openPopup(id);
+
+        return new Vector2f(x - MENU_BUTTON_SIZE.x - 8, y + (int) (MENU_BUTTON_SIZE.y));
     }
 }

@@ -27,7 +27,7 @@ public class PhysicsMath {
         Vector2d collisionAxis = new Vector2d(p2.getPosition()).sub(p1.getPosition());
 
         double distance = collisionAxis.length();
-        if(distance > p1.getRadius() + p2.getRadius()) return;
+        if(distance >= p1.getRadius() + p2.getRadius()) return;
 
         collisionAxis.normalize();
         Vector2d relativeVelocity = new Vector2d(p1.getVelocity()).sub(p2.getVelocity());
@@ -36,12 +36,12 @@ public class PhysicsMath {
         if(velocityAlongCollisionAxis <= 0) return;
 
         double totalMass = p1.getMass() + p2.getMass();
-        double impulse = (2 * velocityAlongCollisionAxis) / totalMass;
+        double impulse = ((2 * velocityAlongCollisionAxis) / totalMass); // * ELASTICITY;
 
-        if(p1.isMovable()) p1.getVelocity().sub(new Vector2d(collisionAxis).mul(impulse * p2.getMass()));
-        if(p2.isMovable()) p2.getVelocity().add(new Vector2d(collisionAxis).mul(impulse * p1.getMass()));
+        if (p1.isMovable()) p1.getVelocity().sub(new Vector2d(collisionAxis).mul(impulse * p2.getMass()));
+        if (p2.isMovable()) p2.getVelocity().add(new Vector2d(collisionAxis).mul(impulse * p1.getMass()));
 
-        double overlap = p1.getRadius() + p2.getRadius() - distance;
+        double overlap = p1.getRadius() + p2.getRadius() - distance - 0.75;
         Vector2d correction = collisionAxis.mul(overlap);
 
         if(p1.isMovable() && p2.isMovable()) {
@@ -49,7 +49,7 @@ public class PhysicsMath {
             p2.getPosition().sub(new Vector2d(correction).mul(p1.getMass() / (p1.getMass() + p2.getMass())));
         }
         else if(p1.isMovable()) p1.getPosition().add(correction);
-        else if(p2.isMovable()) p2.getPosition().sub(correction);
+        else if(p2.isMovable()) p2.getPosition().add(correction);
     }
 
     public static void attemptParticleBoxCollision(@NotNull Particle particle, @NotNull Box box) {

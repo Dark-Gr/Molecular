@@ -22,6 +22,18 @@ public class ParticleHolder {
     }
 
     public void updateParticles(double deltaTime) {
+        for(int i = 0; i < particles.size(); i++) {
+//            if(!particles.get(i).isMovable()) continue;
+
+            for (int j = i + 1; j < particles.size(); j++)
+                PhysicsMath.attemptCollision(particles.get(i), particles.get(j));
+        }
+
+        for(Particle particle : particles) {
+            for(Box box : boxes)
+                PhysicsMath.attemptParticleBoxCollision(particle, box);
+        }
+
         for(Particle p1 : particles) {
             if(!p1.isMovable()) continue;
             Vector2d totalForce = new Vector2d();
@@ -32,18 +44,6 @@ public class ParticleHolder {
             }
 
             p1.applyForce(totalForce.mul(deltaTime));
-        }
-
-        for(int i = 0; i < particles.size(); i++) {
-            if(!particles.get(i).isMovable()) continue;
-
-            for (int j = i + 1; j < particles.size(); j++)
-                PhysicsMath.attemptCollision(particles.get(i), particles.get(j));
-        }
-
-        for(Particle particle : particles) {
-            for(Box box : boxes)
-                PhysicsMath.attemptParticleBoxCollision(particle, box);
         }
 
         for(Particle p : particles)

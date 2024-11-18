@@ -25,6 +25,8 @@ import org.lwjgl.opengl.GL;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
+    public static Main INSTANCE;
+
     private OrthographicCamera camera;
     private ScreenViewport viewport;
 
@@ -39,6 +41,10 @@ public class Main extends ApplicationAdapter {
     private final MainMenuBar mainMenuBar = new MainMenuBar();
 
     private long lastFrameTime;
+
+    public Main() {
+        INSTANCE = this;
+    }
 
     @Override
     public void create() {
@@ -69,27 +75,27 @@ public class Main extends ApplicationAdapter {
 
         Graphics.init();
 
-        particleHolder.addBox(new Box(300, 1200, 900, 200));
+        particleHolder.addBox(new Box(25, 1500, 1000, 50));
 
-        for(int i = 0; i < 12; i++) {
-            Color color = new Color(
-                (float) Math.random(),
-                (float) Math.random(),
-                (float) Math.random(),
-                1
-            );
-
-            double mass = Math.floor(Math.random() * 50);
-
-            particleHolder.addParticle(new Particle(new Vector2d(400 + i * 50, 600 - (Math.floor(Math.random() * 200))), mass, color));
-        }
+//        for(int i = 0; i < 12; i++) {
+//            Color color = new Color(
+//                (float) Math.random(),
+//                (float) Math.random(),
+//                (float) Math.random(),
+//                1
+//            );
+//
+//            double mass = Math.floor(Math.random() * 50);
+//
+//            particleHolder.addParticle(new Particle(new Vector2d(400 + i * 50, 600 - (Math.floor(Math.random() * 200))), mass, color));
+//        }
 
 //        particleHolder.addParticle(new Particle(new Vector2d(500, 800), new Vector2d(0.5, 0), 10, new Color(1f, 0, 0, 1f)));
 //        particleHolder.addParticle(new Particle(new Vector2d(700, 800), new Vector2d(-0.5, 0), 50, new Color(0, 1f, 0, 1f)));
 //
-//        particleHolder.addParticle(new Particle(new Vector2d(500, 500), new Vector2d(0, 1), 10, new Color(1f, 1f, 0, 1f)));
-//        particleHolder.addParticle(new Particle(new Vector2d(800, 500), 20, new Color(0, 1f, 1f, 1f)));
-//        particleHolder.addParticle(new Particle(new Vector2d(1100, 500), new Vector2d(0, -1), 10, new Color(0, 0, 1f, 1f)));
+        particleHolder.addParticle(new Particle(new Vector2d(500, 500), new Vector2d(0, 1), 10, new Color(1f, 1f, 0, 1f)));
+        particleHolder.addParticle(new Particle(new Vector2d(800, 500), 200, new Color(0, 1f, 1f, 1f)));
+        particleHolder.addParticle(new Particle(new Vector2d(1100, 500), new Vector2d(0, -1), 10, new Color(0, 0, 1f, 1f)));
 //
 //        particleHolder.getParticles().get(1).setRadius(20);
 //        particleHolder.selectParticle(particleHolder.getParticles().get(0));
@@ -162,5 +168,13 @@ public class Main extends ApplicationAdapter {
         imGuiGlfw.shutdown();
         imGuiGl3.shutdown();
         ImGui.destroyContext();
+    }
+
+    public void togglePause() {
+        paused = !paused;
+    }
+
+    public boolean isPaused() {
+        return paused;
     }
 }

@@ -7,6 +7,11 @@ import io.github.darkgr.world.Particle;
 import org.joml.Vector2d;
 import org.joml.Vector2f;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 public class MainMenuBar extends MolecularGUI {
     public static final int BAR_HEIGHT = 25;
     private static final ImVec2 MENU_BUTTON_SIZE = new ImVec2(100, BAR_HEIGHT);
@@ -55,7 +60,7 @@ public class MainMenuBar extends MolecularGUI {
         ImGui.setNextWindowPos(popupPos.x, popupPos.y);
         if(ImGui.beginPopup("About")) {
             if(ImGui.button("Github", MENU_BUTTON_SIZE)) {
-                // TODO: Open Github repository
+                openLink("https://github.com/Dark-Gr/Molecular");
             }
 
             ImGui.endPopup();
@@ -71,5 +76,17 @@ public class MainMenuBar extends MolecularGUI {
         ImGui.openPopup(id);
 
         return new Vector2f(x - MENU_BUTTON_SIZE.x - 8, y + (int) (MENU_BUTTON_SIZE.y));
+    }
+
+    private void openLink(String link) {
+        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+        if(desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+            try {
+                URL url = new URL(link);
+                desktop.browse(url.toURI());
+            } catch (IOException | URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

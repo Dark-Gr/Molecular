@@ -20,19 +20,23 @@ public class Particle {
     }
 
     public Particle(Vector2d position, double mass, Color color) {
-        this(position, new Vector2d(), mass, color);
+        this(position, new Vector2d(), mass, 15, color);
     }
 
-    public Particle(Vector2d position, Vector2d velocity, double mass) {
-        this(position, velocity, mass, Color.WHITE);
+    public Particle(Vector2d position, double mass, int size, Color color) {
+        this(position, new Vector2d(), mass, size, color);
     }
 
     public Particle(Vector2d position, Vector2d velocity, double mass, Color color) {
+        this(position, velocity, mass, 15, color);
+    }
+
+    public Particle(Vector2d position, Vector2d velocity, double mass, int size, Color color) {
         this.position = position;
         this.velocity = velocity;
         this.mass = mass;
         this.color = color;
-        this.radius = 15;
+        this.radius = size;
         this.movable = true;
     }
 

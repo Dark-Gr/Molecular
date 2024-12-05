@@ -31,8 +31,6 @@ public class MainMenuBar extends MolecularGUI {
         if(ImGui.button("About", MENU_BUTTON_SIZE))
             popupPos = openPopup("About");
 
-
-
         ImGui.setNextWindowPos(popupPos.x, popupPos.y);
         if(ImGui.beginPopup("Menu")) {
             if(ImGui.button("Exit", MENU_BUTTON_SIZE))

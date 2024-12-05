@@ -43,9 +43,14 @@ public class Graphics {
     public static void renderBox(Box box) {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.rect((float)box.getLeft(), (float)box.getBottom(),
-            (float)(box.getRight() - box.getLeft()),
-            (float)(box.getTop() - box.getBottom()));
+
+        shapeRenderer.rect(
+            (float) box.getLeft(),
+            (float) box.getBottom(),
+            (float) (box.getRight() - box.getLeft()),
+            (float) (box.getTop() - box.getBottom())
+        );
+
         shapeRenderer.end();
     }
 
@@ -54,7 +59,13 @@ public class Graphics {
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(particle.getColor());
-        shapeRenderer.circle((float) particle.getPosition().x, (float) particle.getPosition().y, particle.getRadius());
+
+        shapeRenderer.circle(
+            (float) particle.getPosition().x,
+            (float) particle.getPosition().y,
+            particle.getRadius()
+        );
+
         shapeRenderer.end();
     }
 

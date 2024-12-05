@@ -1,10 +1,10 @@
 package io.github.darkgr.world;
 
 public class Box {
-    private double left;
-    private double right;
-    private double top;
-    private double bottom;
+    private final double left;
+    private final double right;
+    private final double top;
+    private final double bottom;
 
     public Box(double left, double right, double top, double bottom) {
         this.left = left;
@@ -27,21 +27,5 @@ public class Box {
 
     public double getBottom() {
         return bottom;
-    }
-
-    public void setLeft(double left) {
-        this.left = left;
-    }
-
-    public void setRight(double right) {
-        this.right = right;
-    }
-
-    public void setTop(double top) {
-        this.top = top;
-    }
-
-    public void setBottom(double bottom) {
-        this.bottom = bottom;
     }
 }

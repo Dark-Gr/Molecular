@@ -23,8 +23,6 @@ public class ParticleHolder {
 
     public void updateParticles(double deltaTime) {
         for(int i = 0; i < particles.size(); i++) {
-//            if(!particles.get(i).isMovable()) continue;
-
             for (int j = i + 1; j < particles.size(); j++)
                 PhysicsMath.attemptCollision(particles.get(i), particles.get(j));
         }
